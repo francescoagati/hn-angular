@@ -1,13 +1,75 @@
 
 // Adds filters to app
-angular.module('hn', ['filters']);
+module = angular.module('hn', ['filters']);
+
+var tokenInfo = {
+  partner: '<!-- your partnerd local_id -->',
+  category: '<!-- your category local_id -->',
+  uid: '<!-- user id -->'
+}; 
+
+module.directive('veespobutton', function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+
+            var params = scope.$eval(attrs.params);
+
+
+            $timeout(function() {
+
+                  params.callback = function(response) {
+                    scope.$apply(function() {
+                             params.response = response;
+                    });
+                  };
+
+
+                  window._veespo_push = window._veespo_push || [];
+                  window._veespo_push.push(['widget.button-modal',element[0],params]);
+
+                   // $(element).veespo('widget.button-modal',{ context:context}).then(function(response) {
+                   //   scope.$apply(function() {
+                   //           context.response = response;
+                   //   });
+                   // });
+
+            },0);
+
+        }
+    };
+});
+
 
 
 // Controller for displaying top 30 HN Posts
 
 function TopListCtrl($scope, $http) {
   $http.jsonp('http://api.ihackernews.com/page?format=jsonp&callback=JSON_CALLBACK').success(function(data) {
+
+    data.items.forEach(function(news) {
+
+
+      var id = news.id;
+
+      news.widgetParams =  {
+        title: news.title,
+        target_info: {
+          local_id: id,
+          desc1:  news.title,
+          desc2:  news.title,
+          lang:   'it'
+        },
+        lang:"it",
+        enviroment:"sandbox",
+        token_info: tokenInfo
+      };
+    });
+
     $scope.posts = data;
+
+    debugger;
+
   });
 }
 
