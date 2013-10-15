@@ -3,11 +3,11 @@ session_start();
 
 
 function getToken($api,$apiKey,$category,$user) {
-		if(!isset($_SESSION["veespo_token_$category"])) {
-		  $url =  "http://".$api."/v1/auth/category/".$category."/user-token?api_key=".$apiKey."&user=".$user;
-		  $_SESSION["veespo_token_$category"] = json_decode(file_get_contents($url))->data->token;
-		}
-		return $_SESSION["veespo_token_$category"];
+  if(!isset($_SESSION["veespo_token_$category"])) {
+	$url =  "http://".$api."/v1/auth/category/".$category."/user-token?api_key=".$apiKey."&user=".$user;
+	$_SESSION["veespo_token_$category"] = json_decode(file_get_contents($url))->data->token;
+  }
+  return $_SESSION["veespo_token_$category"];
 }
 
 
@@ -31,7 +31,7 @@ $token = getToken("<-- api domain -->",'<-- apikey -->','<-- category -->','<-- 
 	<link href="assets/css/styles.css" rel="stylesheet">
 
    <script>
-     //brutal hack for token better to put inside a cookie or localstorage
+     //brutal hack for token. better to put inside a cookie or localstorage
      window.token = "<?= $token; ?>";
    </script>
 
