@@ -44,21 +44,37 @@ function TopListCtrl($scope, $http) {
 
     data.items.forEach(function(news) {
 
-
       var id = news.id;
-
-      news.widgetParams =  {
-        title: news.title,
-        target_info: {
+	  var target_info = {
           local_id: id,
           desc1:  news.title,
           desc2:  news.title,
           lang:   'it'
-        },
-        lang:"it",
-        enviroment:"sandbox",
-        token_info: tokenInfo
       };
+
+	  
+	  if (window.token) {
+		// with token
+		news.widgetParams =  {
+		  title: news.title,
+		  target_info: target_info,
+		  lang:"it",
+		  enviroment:"sandbox",
+		  token: token
+		};
+	  } else {
+		// with token info
+		news.widgetParams =  {
+		  title: news.title,
+		  target_info: target_info,
+		  lang:"it",
+		  enviroment:"sandbox",
+		  token_info: tokenInfo
+		};
+		
+	  }
+	  
+
     });
 
     $scope.posts = data;
