@@ -2,11 +2,7 @@
 // Adds filters to app
 module = angular.module('hn', ['filters']);
 
-var tokenInfo = {
-  partner: '<!-- your partnerd local_id -->',
-  category: '<!-- your category local_id -->',
-  uid: '<!-- user id -->'
-}; 
+
 
 module.directive('veespobutton', function($timeout) {
     return {
@@ -28,11 +24,6 @@ module.directive('veespobutton', function($timeout) {
                   window._veespo_push = window._veespo_push || [];
                   window._veespo_push.push(['widget.button-modal',element[0],params]);
 
-                   // $(element).veespo('widget.button-modal',{ context:context}).then(function(response) {
-                   //   scope.$apply(function() {
-                   //           context.response = response;
-                   //   });
-                   // });
 
             },0);
 
@@ -40,7 +31,11 @@ module.directive('veespobutton', function($timeout) {
     };
 });
 
-
+var tokenInfo = {
+  partner: '<!-- your partnerd local_id -->',
+  category: '<!-- your category local_id -->',
+  uid: '<!-- user id -->'
+}; 
 
 // Controller for displaying top 30 HN Posts
 
